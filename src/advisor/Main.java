@@ -23,14 +23,16 @@ public class Main {
     private final static String clientId = "e250b9f5fe2848f08f36f20b1274866a";
     private final static String clientSecret = "006e08a74dbd4d5caa1b5fdc8d247687";
     private final static String spotify = "https://accounts.spotify.com";
+    private final static String defaultAPI = "https://api.spotify.com";
     private static String path;
+    private static String APIpath;
     private static String url;
 
     private final static String clientIdSecret = clientId + ":" + clientSecret;
     private static String code = "";
     private static String accessToken = "";
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
 
         getServerPath(args);
@@ -60,11 +62,7 @@ public class Main {
                     System.out.println("---GOODBYE!---");
                     System.exit(0);
                 case ("new"):
-                    System.out.println("---NEW RELEASES---\n" +
-                            "Mountains [Sia, Diplo, Labrinth]\n" +
-                            "Runaway [Lil Peep]\n" +
-                            "The Greatest Show [Panic! At The Disco]\n" +
-                            "All Out Life [Slipknot]");
+                        getNew();
                     break;
                 case ("featured"):
                     System.out.println("---FEATURED---\n" +
@@ -93,19 +91,47 @@ public class Main {
 
     }
 
+    private static void getNew() throws IOException, InterruptedException {
+
+        HttpClient client = HttpClient.newBuilder().build();
+        HttpRequest request = HttpRequest.newBuilder()
+                .headers("Content-Type", "application/json", "Authorization", "Bearer " + accessToken)
+                .uri(URI.create(APIpath + "/v1/browse/new-releases"))
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        //ObjectMapper mapper = new ObjectMapper();
+        //Map<String, String> map = mapper.readValue(response.body(), Map.class);
+        //accessToken = map.get("access_token");
+        System.out.println("response status code:" + response.statusCode());
+        System.out.println("response body: " + response.body());
+        System.out.println("response headers: " + response.headers());
+
+    }
+
     private static void getServerPath(String[] args) {
+
+        boolean api = true;
+        boolean pth = true;
 
         for(int i = 0; i < args.length; i++) {
             if(args[i].equals("-access") && i < args.length - 1) {
                 //System.out.println("args: " + args[i + 1]);
                 path = args[i + 1] + "/api/token";
                 url = args[i + 1] + "/authorize?client_id=" + clientId + "&redirect_uri=" + serverPath + "&response_type=code";
-
-                return;
+                pth = false;
+            }
+            if(args[i].equals("-resource") && i < args.length - 1) {
+                APIpath = args[i + 1];
+                api = false;
             }
         }
-        path = spotify + "/api/token";
-        url = spotify + "/authorize?client_id=" + clientId + "&redirect_uri=" + serverPath + "&response_type=code";
+        if(pth) {
+            path = spotify + "/api/token";
+            url = spotify + "/authorize?client_id=" + clientId + "&redirect_uri=" + serverPath + "&response_type=code";
+        }
+        if(api)
+            APIpath = defaultAPI;
     }
 
 
@@ -142,9 +168,9 @@ public class Main {
                         "&redirect_uri=" + serverPath))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        //ObjectMapper mapper = new ObjectMapper();
-        //Map<String, String> map = mapper.readValue(response.body(), Map.class);
-        //accessToken = map.get("access_token");
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = mapper.readValue(response.body(), Map.class);
+        accessToken = map.get("access_token");
         System.out.println("response:");
         System.out.println(response.body());
     }
