@@ -1,35 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MusicAdvisorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-08-19T07:18:21" hostname="LAPTOP-VBFHQFG2" time="0.081">
+<testsuite name="MusicAdvisorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-08-20T10:32:56" hostname="LAPTOP-VBFHQFG2" time="1.727">
   <properties/>
-  <testcase name="start" classname="MusicAdvisorTest" time="0.081"/>
+  <testcase name="start" classname="MusicAdvisorTest" time="1.727"/>
   <system-out><![CDATA[?[1;31m
 Start test 1?[0m
 > auth
-https://accounts.spotify.com/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8080&response_type=code
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8080&response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8080
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
 ---SUCCESS---
-> exit
----GOODBYE!---
-?[1;31m
-Start test 2?[0m
-> new
-Please, provide access for application.
-> exit
-?[1;31m
-Start test 3?[0m
-> featured
-Please, provide access for application.
-> exit
-?[1;31m
-Start test 4?[0m
-> auth
-https://accounts.spotify.com/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8080&response_type=code
----SUCCESS---
-> new
----NEW RELEASES---
-Mountains [Sia, Diplo, Labrinth]
-Runaway [Lil Peep]
-The Greatest Show [Panic! At The Disco]
-All Out Life [Slipknot]
 > featured
 ---FEATURED---
 Mellow Morning
@@ -38,6 +25,46 @@ Monday Motivation
 Songs to Sing in the Shower
 > exit
 ---GOODBYE!---
+?[1;31m
+Start test 2?[0m
+> featured
+Please, provide access for application.
+> exit
+?[1;31m
+Start test 3?[0m
+
+
+***Exception when starting the server***
+
+
+
+*******************************
+
+
+> new
+Please, provide access for application.
+> exit
 ]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+  <system-err><![CDATA[java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:337)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294)
+	at java.base/sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:89)
+	at jdk.httpserver/sun.net.httpserver.ServerImpl.bind(ServerImpl.java:134)
+	at jdk.httpserver/sun.net.httpserver.HttpServerImpl.bind(HttpServerImpl.java:54)
+	at advisor.Main.startServer(Main.java:155)
+	at advisor.Main.main(Main.java:37)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.hyperskill.hstest.testing.execution.MainMethodExecutor.invokeMain(MainMethodExecutor.java:172)
+	at org.hyperskill.hstest.testing.execution.MainMethodExecutor.lambda$launch$0(MainMethodExecutor.java:199)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+]]></system-err>
 </testsuite>
