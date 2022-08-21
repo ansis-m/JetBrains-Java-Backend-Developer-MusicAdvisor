@@ -69,9 +69,10 @@ public class Main {
             String i = scanner.nextLine();
             switch (i) {
                 case ("exit"):
-                    scanner.close();
-                    System.out.println("---GOODBYE!---");
-                    System.exit(0);
+//                    scanner.close();
+//                    System.out.println("---GOODBYE!---");
+//                    System.exit(0);
+                    break;
                 case ("new"):
                     try {
                         response = getResponse("/v1/browse/new-releases");
@@ -216,7 +217,7 @@ public class Main {
 
     private static HttpResponse getResponse(String api) throws IOException, InterruptedException {
 
-        System.out.println("\n\nRequested:  " + APIpath + api + "\n\n");
+        //System.out.println("\n\nRequested:  " + APIpath + api + "\n\n");
         HttpClient client = HttpClient.newBuilder().build();
         HttpRequest request = HttpRequest.newBuilder()
                 .headers("Content-Type", "application/json", "Authorization", "Bearer " + accessToken)

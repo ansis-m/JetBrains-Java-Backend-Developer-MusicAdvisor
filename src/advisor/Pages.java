@@ -15,6 +15,7 @@ public class Pages {
     private static List<String> output;
     private static int size;
     private static int currentIndex;
+    private static boolean next;
 
 
 
@@ -22,6 +23,7 @@ public class Pages {
         this.pageSize = pageSize;
         currentIndex = 0;
         output = new ArrayList<>();
+        next = true;
     }
 
     public static void addOutput(String entry){
@@ -33,9 +35,15 @@ public class Pages {
         output.clear();
         currentIndex = 0;
         size = 0;
+        next = true;
     }
 
     public static void displayNext() {
+
+        if(!next) {
+            currentIndex = currentIndex + pageSize >= size? size : currentIndex + pageSize;
+            next = true;
+        }
 
         if(currentIndex == size) {
             System.out.println("No more pages.");
@@ -47,13 +55,25 @@ public class Pages {
         for(int i = currentIndex; i < end; i++)
             System.out.println(output.get(i));
 
-        System.out.printf("\n---Page %d of %d---\n", currentIndex/pageSize + 1, (int) Math.ceil(size/pageSize));
+        System.out.printf("---PAGE %d OF %d---\n", currentIndex/pageSize + 1, (int) Math.ceil(size/pageSize));
 
         currentIndex = end;
 
     }
 
     public static void displayPrev() {
+
+
+        if(currentIndex == 0) {
+            System.out.println("No more pages.");
+            return;
+        }
+
+
+        if(next) {
+            currentIndex = currentIndex - pageSize >= 0? currentIndex - pageSize : 0;
+            next = false;
+        }
 
         if(currentIndex == 0) {
             System.out.println("No more pages.");
@@ -66,7 +86,7 @@ public class Pages {
         for(int i = begin; i < currentIndex; i++)
             System.out.println(output.get(i));
 
-        System.out.printf("\n---Page %d of %d---\n", begin/pageSize + 1, (int) Math.ceil(size/pageSize));
+        System.out.printf("---PAGE %d OF %d---\n", begin/pageSize + 1, (int) Math.ceil(size/pageSize));
 
         currentIndex = begin;
     }
