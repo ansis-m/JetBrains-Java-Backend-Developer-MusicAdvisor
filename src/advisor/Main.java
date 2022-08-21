@@ -30,6 +30,7 @@ public class Main {
     private static String path;
     private static String APIpath;
     private static String url;
+    private static int size = 5;
 
     private final static String clientIdSecret = clientId + ":" + clientSecret;
     private static String code = "";
@@ -63,6 +64,7 @@ public class Main {
         scanner = new Scanner(System.in);
         HttpResponse<String> response;
         JsonObject jo;
+        Pages pages = new Pages(size);
         while(true) {
             String i = scanner.nextLine();
             switch (i) {
@@ -74,26 +76,29 @@ public class Main {
                     try {
                         response = getResponse("/v1/browse/new-releases");
                         jo = JsonParser.parseString(response.body()).getAsJsonObject();
+                        pages.clear();
+
                         //System.out.println(jo);
                         for (JsonElement j : jo.getAsJsonObject("albums").getAsJsonArray("items")) {
-
+                            StringBuilder builder = new StringBuilder();
                             if(j.isJsonObject()){
-                                System.out.println(j.getAsJsonObject().get("name").getAsString());
-                                System.out.print("[");
+                                builder.append(j.getAsJsonObject().get("name").getAsString() + "\n");
+                                builder.append("[");
                                 boolean first = true;
                                 for(JsonElement k : j.getAsJsonObject().getAsJsonArray("artists")){
                                     if(k.isJsonObject()) {
                                         if(!first)
-                                            System.out.print(", ");
-                                        System.out.print(k.getAsJsonObject().get("name").getAsString());
+                                            builder.append(", ");
+                                        builder.append(k.getAsJsonObject().get("name").getAsString());
                                         first = false;
                                     }
                                 }
-                                System.out.println("]");
-                                System.out.println(j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
+                                builder.append("]\n");
+                                builder.append(j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
+                                pages.addOutput(builder.toString());
                             }
-                            //System.out.println(j.getAsJsonObject().get("name").getAsString());
                         }
+                        pages.displayNext();
                     }
                     catch (Exception e) {
                         e.printStackTrace();
@@ -104,35 +109,44 @@ public class Main {
                     try {
                         response = getResponse("/v1/browse/featured-playlists");
                         jo = JsonParser.parseString(response.body()).getAsJsonObject();
+                        pages.clear();
                         //System.out.println(jo);
                         for (JsonElement j : jo.getAsJsonObject("playlists").getAsJsonArray("items")) {
                             if(j.isJsonObject()){
-                                System.out.println(j.getAsJsonObject().get("name").getAsString());
-                                System.out.println(j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
+                                pages.addOutput(j.getAsJsonObject().get("name").getAsString() + "\n" + j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
                             }
                         }
+                        pages.displayNext();
                     }
                     catch (Exception e) {
                         e.printStackTrace();
                     }
-
                     break;
                 case ("categories"):
                     try {
                         response = getResponse("/v1/browse/categories");
                         jo = JsonParser.parseString(response.body()).getAsJsonObject();
+                        pages.clear();
                         for (JsonElement j : jo.getAsJsonObject("categories").getAsJsonArray("items")) {
-                            System.out.println(j.getAsJsonObject().get("name").getAsString());
+                            pages.addOutput(j.getAsJsonObject().get("name").getAsString());
                         }
+                        pages.displayNext();
                     }
                     catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
+                case ("next"):
+                    pages.displayNext();
+                    break;
+                case ("prev"):
+                    pages.displayPrev();
+                    break;
                 default:
                     if(i.startsWith("playlists")) {
                         try {
-                            getPlaylist(i);
+                            getPlaylist(i, pages);
+                            pages.displayNext();
                         }
                         catch (Exception e){
                             e.printStackTrace();
@@ -146,7 +160,7 @@ public class Main {
         }
     }
 
-    private static void getPlaylist(String i) {
+    private static void getPlaylist(String i, Pages pages) {
 
         String id = null;
         HttpResponse<String> response;
@@ -155,11 +169,10 @@ public class Main {
             String name = i.split(" ", 2)[1];
             response = getResponse("/v1/browse/categories");
             JsonObject jo = JsonParser.parseString(response.body()).getAsJsonObject();
+
             for (JsonElement j : jo.getAsJsonObject("categories").getAsJsonArray("items")) {
 
                 if (j.getAsJsonObject().get("name").getAsString().equals(name)) {
-//                    System.out.println("FOUND CATEGORY");
-//                    System.out.println("id: " + j.getAsJsonObject().get("id").getAsString());
                     id = j.getAsJsonObject().get("id").getAsString();
                     break;
                 }
@@ -170,16 +183,17 @@ public class Main {
             }
             else {
                 response = getResponse("/v1/browse/categories/" + id + "/playlists");
+
                 if(response.statusCode() == 200) {
                     jo = JsonParser.parseString(response.body()).getAsJsonObject();
                     if(jo.has("error")) {
                         System.out.println("ERROR: " + jo.get("error"));
                     }
                     else {
+                        pages.clear();
                         for (JsonElement j : jo.getAsJsonObject("playlists").getAsJsonArray("items")) {
                             if (j.isJsonObject()) {
-                                System.out.println(j.getAsJsonObject().get("name").getAsString());
-                                System.out.println(j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
+                                pages.addOutput(j.getAsJsonObject().get("name").getAsString() + "\n" + j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
                             }
                         }
                     }
@@ -203,7 +217,6 @@ public class Main {
     private static HttpResponse getResponse(String api) throws IOException, InterruptedException {
 
         System.out.println("\n\nRequested:  " + APIpath + api + "\n\n");
-
         HttpClient client = HttpClient.newBuilder().build();
         HttpRequest request = HttpRequest.newBuilder()
                 .headers("Content-Type", "application/json", "Authorization", "Bearer " + accessToken)
@@ -211,9 +224,6 @@ public class Main {
                 .GET()
                 .build();
         return client.send(request, HttpResponse.BodyHandlers.ofString());
-        //ObjectMapper mapper = new ObjectMapper();
-        //Map<String, String> map = mapper.readValue(response.body(), Map.class);
-        //accessToken = map.get("access_token");
     }
 
     private static void getServerPath(String[] args) {
@@ -231,6 +241,14 @@ public class Main {
             if(args[i].equals("-resource") && i < args.length - 1) {
                 APIpath = args[i + 1];
                 api = false;
+            }
+            if(args[i].equals("-page") && i < args.length - 1) {
+                try {
+                    size = Integer.parseInt(args[i + 1]);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         if(pth) {
