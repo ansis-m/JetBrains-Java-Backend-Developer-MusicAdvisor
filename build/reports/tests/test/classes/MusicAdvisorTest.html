@@ -29,7 +29,7 @@
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">0</div>
+<div class="counter">1</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1.727s</div>
+<div class="counter">1.958s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,8 +50,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox success" id="successRate">
-<div class="percent">100%</div>
+<div class="infoBox failures" id="successRate">
+<div class="percent">0%</div>
 <p>successful</p>
 </div>
 </td>
@@ -61,16 +61,125 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Tests</a>
+<a href="#tab0">Failed tests</a>
 </li>
 <li>
-<a href="#tab1">Standard output</a>
+<a href="#tab1">Tests</a>
 </li>
 <li>
-<a href="#tab2">Standard error</a>
+<a href="#tab2">Standard output</a>
+</li>
+<li>
+<a href="#tab3">Standard error</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="start"></a>
+<h3 class="failures">start</h3>
+<span class="code">
+<pre>java.lang.AssertionError: Wrong answer in test #10
+
+You got a json with unpredictable error from the api. Error message should be parsed from the api response and printed.
+
+Please find below the output of your program during this failed test.
+Note that the '&gt;' character indicates the beginning of the input line.
+
+---
+
+Arguments: -access http://127.0.0.1:45678 -resource http://127.0.0.1:56789
+
+stdout:
+&gt; auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8000&amp;response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
+---SUCCESS---
+&gt; playlists Top Lists
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories
+
+
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories/toplists/playlists
+
+
+Exception searching for playlist!!!
+
+stderr:
+java.lang.NullPointerException: Cannot invoke &quot;com.google.gson.JsonObject.getAsJsonArray(String)&quot; because the return value of &quot;com.google.gson.JsonObject.getAsJsonObject(String)&quot; is null
+	at advisor.Main.getPlaylist(Main.java:174)
+	at advisor.Main.main(Main.java:135)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.hyperskill.hstest.testing.execution.MainMethodExecutor.invokeMain(MainMethodExecutor.java:172)
+	at org.hyperskill.hstest.testing.execution.MainMethodExecutor.lambda$launch$0(MainMethodExecutor.java:199)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.hyperskill.hstest.stage.StageTest.start(StageTest.java:155)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:110)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:62)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at jdk.proxy1/jdk.proxy1.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$2.run(TestWorker.java:176)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:129)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:100)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:60)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:133)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+</pre>
+</span>
+</div>
+</div>
+<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -81,22 +190,70 @@
 </tr>
 </thead>
 <tr>
-<td class="success">start</td>
-<td class="success">1.727s</td>
-<td class="success">passed</td>
+<td class="failures">start</td>
+<td class="failures">1.958s</td>
+<td class="failures">failed</td>
 </tr>
 </table>
 </div>
-<div id="tab1" class="tab">
+<div id="tab2" class="tab">
 <h2>Standard output</h2>
 <span class="code">
 <pre>?[1;31m
 Start test 1?[0m
 &gt; auth
 use this link to request the access code:
-http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8080&amp;response_type=code
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8000&amp;response_type=code
 waiting for code...
-Tester: making requests to redirect uri: http://localhost:8080
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
+---SUCCESS---
+&gt; exit
+---GOODBYE!---
+?[1;31m
+Start test 2?[0m
+&gt; auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8000&amp;response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
+---SUCCESS---
+&gt; categories
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories
+
+
+Top Lists
+Super Mood
+Party Time
+&gt; exit
+---GOODBYE!---
+?[1;31m
+Start test 3?[0m
+&gt; categories
+Please, provide access for application.
+&gt; exit
+?[1;31m
+Start test 4?[0m
+&gt; auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8000&amp;response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
 Tester: done request 1: Authorization code not found. Try again.
 Tester: done request 2: Authorization code not found. Try again.
 Tester: done request 3: Got the code. Return back to your program.
@@ -106,48 +263,138 @@ response:
 {&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
 ---SUCCESS---
 &gt; featured
----FEATURED---
-Mellow Morning
-Wake Up and Smell the Coffee
-Monday Motivation
-Songs to Sing in the Shower
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/featured-playlists
+
+
+Monday Morning Mood
+http://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7
+
+Upp och hoppa!
+http://open.spotify.com/user/spotify__sverige/playlist/4uOEx4OUrkoGNZoIlWMUbO
+
 &gt; exit
 ---GOODBYE!---
 ?[1;31m
-Start test 2?[0m
+Start test 5?[0m
 &gt; featured
 Please, provide access for application.
 &gt; exit
 ?[1;31m
-Start test 3?[0m
+Start test 6?[0m
+&gt; auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8000&amp;response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
+---SUCCESS---
+&gt; new
 
 
-***Exception when starting the server***
+Requested:  http://127.0.0.1:56789/v1/browse/new-releases
 
 
+Runnin'
+[Pharrell Williams]
+https://open.spotify.com/album/5ZX4m5aVSmWQ5iHAPQpT71
 
-*******************************
+Sneakin'
+[Drake2, Drake3]
+https://open.spotify.com/album/0geTzdk2InlqIoB16fW9Nd
 
-
+&gt; exit
+---GOODBYE!---
+?[1;31m
+Start test 7?[0m
 &gt; new
 Please, provide access for application.
 &gt; exit
+?[1;31m
+Start test 8?[0m
+&gt; auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8000&amp;response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
+---SUCCESS---
+&gt; playlists Party Time
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories
+
+
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories/party/playlists
+
+
+Noite Eletronica
+http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen
+
+Festa Indie
+http://open.spotify.com/user/spotifybrazilian/playlist/4HZh0C9y80GzHDbHZyX770
+
+&gt; exit
+---GOODBYE!---
+?[1;31m
+Start test 9?[0m
+&gt; playlists Party Time
+Please, provide access for application.
+Please, provide access for application.
+Please, provide access for application.
+&gt; exit
+?[1;31m
+Start test 10?[0m
+&gt; auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8000&amp;response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
+---SUCCESS---
+&gt; playlists Top Lists
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories
+
+
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories/toplists/playlists
+
+
+Exception searching for playlist!!!
+
 </pre>
 </span>
 </div>
-<div id="tab2" class="tab">
+<div id="tab3" class="tab">
 <h2>Standard error</h2>
 <span class="code">
-<pre>java.net.BindException: Address already in use: bind
-	at java.base/sun.nio.ch.Net.bind0(Native Method)
-	at java.base/sun.nio.ch.Net.bind(Net.java:555)
-	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:337)
-	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294)
-	at java.base/sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:89)
-	at jdk.httpserver/sun.net.httpserver.ServerImpl.bind(ServerImpl.java:134)
-	at jdk.httpserver/sun.net.httpserver.HttpServerImpl.bind(HttpServerImpl.java:54)
-	at advisor.Main.startServer(Main.java:155)
-	at advisor.Main.main(Main.java:37)
+<pre>java.lang.NullPointerException: Cannot invoke &quot;com.google.gson.JsonObject.getAsJsonArray(String)&quot; because the return value of &quot;com.google.gson.JsonObject.getAsJsonObject(String)&quot; is null
+	at advisor.Main.getPlaylist(Main.java:174)
+	at advisor.Main.main(Main.java:135)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -170,7 +417,7 @@ Please, provide access for application.
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.3.3</a> at 20 Aug 2022, 13:32:58</p>
+<a href="http://www.gradle.org">Gradle 7.3.3</a> at 21 Aug 2022, 13:13:48</p>
 </div>
 </div>
 </body>

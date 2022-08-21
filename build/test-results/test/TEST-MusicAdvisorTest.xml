@@ -1,14 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MusicAdvisorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-08-20T10:32:56" hostname="LAPTOP-VBFHQFG2" time="1.727">
+<testsuite name="MusicAdvisorTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2022-08-21T10:13:46" hostname="LAPTOP-VBFHQFG2" time="1.958">
   <properties/>
-  <testcase name="start" classname="MusicAdvisorTest" time="1.727"/>
+  <testcase name="start" classname="MusicAdvisorTest" time="1.958">
+    <failure message="java.lang.AssertionError: Wrong answer in test #10&#10;&#10;You got a json with unpredictable error from the api. Error message should be parsed from the api response and printed.&#10;&#10;Please find below the output of your program during this failed test.&#10;Note that the '&gt;' character indicates the beginning of the input line.&#10;&#10;---&#10;&#10;Arguments: -access http://127.0.0.1:45678 -resource http://127.0.0.1:56789&#10;&#10;stdout:&#10;&gt; auth&#10;use this link to request the access code:&#10;http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8000&amp;response_type=code&#10;waiting for code...&#10;Tester: making requests to redirect uri: http://localhost:8000&#10;Tester: done request 1: Authorization code not found. Try again.&#10;Tester: done request 2: Authorization code not found. Try again.&#10;Tester: done request 3: Got the code. Return back to your program.&#10;code received&#10;making http request for access_token...&#10;response:&#10;{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}&#10;---SUCCESS---&#10;&gt; playlists Top Lists&#10;&#10;&#10;Requested:  http://127.0.0.1:56789/v1/browse/categories&#10;&#10;&#10;&#10;&#10;Requested:  http://127.0.0.1:56789/v1/browse/categories/toplists/playlists&#10;&#10;&#10;Exception searching for playlist!!!&#10;&#10;stderr:&#10;java.lang.NullPointerException: Cannot invoke &quot;com.google.gson.JsonObject.getAsJsonArray(String)&quot; because the return value of &quot;com.google.gson.JsonObject.getAsJsonObject(String)&quot; is null&#10;&#9;at advisor.Main.getPlaylist(Main.java:174)&#10;&#9;at advisor.Main.main(Main.java:135)&#10;&#9;at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#10;&#9;at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)&#10;&#9;at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#10;&#9;at java.base/java.lang.reflect.Method.invoke(Method.java:568)&#10;&#9;at org.hyperskill.hstest.testing.execution.MainMethodExecutor.invokeMain(MainMethodExecutor.java:172)&#10;&#9;at org.hyperskill.hstest.testing.execution.MainMethodExecutor.lambda$launch$0(MainMethodExecutor.java:199)&#10;&#9;at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)&#10;&#9;at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)&#10;&#9;at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)&#10;&#9;at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)&#10;&#9;at java.base/java.lang.Thread.run(Thread.java:833)" type="java.lang.AssertionError">java.lang.AssertionError: Wrong answer in test #10
+
+You got a json with unpredictable error from the api. Error message should be parsed from the api response and printed.
+
+Please find below the output of your program during this failed test.
+Note that the '&gt;' character indicates the beginning of the input line.
+
+---
+
+Arguments: -access http://127.0.0.1:45678 -resource http://127.0.0.1:56789
+
+stdout:
+&gt; auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&amp;redirect_uri=http://localhost:8000&amp;response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{&quot;access_token&quot;:&quot;456456&quot;,&quot;token_type&quot;:&quot;Bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;567567&quot;,&quot;scope&quot;:&quot;&quot;}
+---SUCCESS---
+&gt; playlists Top Lists
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories
+
+
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories/toplists/playlists
+
+
+Exception searching for playlist!!!
+
+stderr:
+java.lang.NullPointerException: Cannot invoke &quot;com.google.gson.JsonObject.getAsJsonArray(String)&quot; because the return value of &quot;com.google.gson.JsonObject.getAsJsonObject(String)&quot; is null
+	at advisor.Main.getPlaylist(Main.java:174)
+	at advisor.Main.main(Main.java:135)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.hyperskill.hstest.testing.execution.MainMethodExecutor.invokeMain(MainMethodExecutor.java:172)
+	at org.hyperskill.hstest.testing.execution.MainMethodExecutor.lambda$launch$0(MainMethodExecutor.java:199)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.hyperskill.hstest.stage.StageTest.start(StageTest.java:155)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:110)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:62)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at jdk.proxy1/jdk.proxy1.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker$2.run(TestWorker.java:176)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.executeAndMaintainThreadName(TestWorker.java:129)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:100)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.execute(TestWorker.java:60)
+	at org.gradle.process.internal.worker.child.ActionExecutionWorker.execute(ActionExecutionWorker.java:56)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:133)
+	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
+	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
+</failure>
+  </testcase>
   <system-out><![CDATA[?[1;31m
 Start test 1?[0m
 > auth
 use this link to request the access code:
-http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8080&response_type=code
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8000&response_type=code
 waiting for code...
-Tester: making requests to redirect uri: http://localhost:8080
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
+---SUCCESS---
+> exit
+---GOODBYE!---
+?[1;31m
+Start test 2?[0m
+> auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8000&response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
+---SUCCESS---
+> categories
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories
+
+
+Top Lists
+Super Mood
+Party Time
+> exit
+---GOODBYE!---
+?[1;31m
+Start test 3?[0m
+> categories
+Please, provide access for application.
+> exit
+?[1;31m
+Start test 4?[0m
+> auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8000&response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
 Tester: done request 1: Authorization code not found. Try again.
 Tester: done request 2: Authorization code not found. Try again.
 Tester: done request 3: Got the code. Return back to your program.
@@ -18,43 +164,133 @@ response:
 {"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
 ---SUCCESS---
 > featured
----FEATURED---
-Mellow Morning
-Wake Up and Smell the Coffee
-Monday Motivation
-Songs to Sing in the Shower
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/featured-playlists
+
+
+Monday Morning Mood
+http://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7
+
+Upp och hoppa!
+http://open.spotify.com/user/spotify__sverige/playlist/4uOEx4OUrkoGNZoIlWMUbO
+
 > exit
 ---GOODBYE!---
 ?[1;31m
-Start test 2?[0m
+Start test 5?[0m
 > featured
 Please, provide access for application.
 > exit
 ?[1;31m
-Start test 3?[0m
+Start test 6?[0m
+> auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8000&response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
+---SUCCESS---
+> new
 
 
-***Exception when starting the server***
+Requested:  http://127.0.0.1:56789/v1/browse/new-releases
 
 
+Runnin'
+[Pharrell Williams]
+https://open.spotify.com/album/5ZX4m5aVSmWQ5iHAPQpT71
 
-*******************************
+Sneakin'
+[Drake2, Drake3]
+https://open.spotify.com/album/0geTzdk2InlqIoB16fW9Nd
 
-
+> exit
+---GOODBYE!---
+?[1;31m
+Start test 7?[0m
 > new
 Please, provide access for application.
 > exit
+?[1;31m
+Start test 8?[0m
+> auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8000&response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
+---SUCCESS---
+> playlists Party Time
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories
+
+
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories/party/playlists
+
+
+Noite Eletronica
+http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen
+
+Festa Indie
+http://open.spotify.com/user/spotifybrazilian/playlist/4HZh0C9y80GzHDbHZyX770
+
+> exit
+---GOODBYE!---
+?[1;31m
+Start test 9?[0m
+> playlists Party Time
+Please, provide access for application.
+Please, provide access for application.
+Please, provide access for application.
+> exit
+?[1;31m
+Start test 10?[0m
+> auth
+use this link to request the access code:
+http://127.0.0.1:45678/authorize?client_id=e250b9f5fe2848f08f36f20b1274866a&redirect_uri=http://localhost:8000&response_type=code
+waiting for code...
+Tester: making requests to redirect uri: http://localhost:8000
+Tester: done request 1: Authorization code not found. Try again.
+Tester: done request 2: Authorization code not found. Try again.
+Tester: done request 3: Got the code. Return back to your program.
+code received
+making http request for access_token...
+response:
+{"access_token":"456456","token_type":"Bearer","expires_in":3600,"refresh_token":"567567","scope":""}
+---SUCCESS---
+> playlists Top Lists
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories
+
+
+
+
+Requested:  http://127.0.0.1:56789/v1/browse/categories/toplists/playlists
+
+
+Exception searching for playlist!!!
+
 ]]></system-out>
-  <system-err><![CDATA[java.net.BindException: Address already in use: bind
-	at java.base/sun.nio.ch.Net.bind0(Native Method)
-	at java.base/sun.nio.ch.Net.bind(Net.java:555)
-	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:337)
-	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294)
-	at java.base/sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:89)
-	at jdk.httpserver/sun.net.httpserver.ServerImpl.bind(ServerImpl.java:134)
-	at jdk.httpserver/sun.net.httpserver.HttpServerImpl.bind(HttpServerImpl.java:54)
-	at advisor.Main.startServer(Main.java:155)
-	at advisor.Main.main(Main.java:37)
+  <system-err><![CDATA[java.lang.NullPointerException: Cannot invoke "com.google.gson.JsonObject.getAsJsonArray(String)" because the return value of "com.google.gson.JsonObject.getAsJsonObject(String)" is null
+	at advisor.Main.getPlaylist(Main.java:174)
+	at advisor.Main.main(Main.java:135)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

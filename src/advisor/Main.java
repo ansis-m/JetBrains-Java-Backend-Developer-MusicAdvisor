@@ -21,7 +21,7 @@ import java.util.Scanner;
 public class Main {
 
 
-    private static final String port = "8080"; //when changing the port a new authoriazation has to be made at Spotify
+    private static final String port = "8000"; //when changing the port a new authoriazation has to be made at Spotify
     private static String serverPath = "http://localhost:" + port;
     private final static String clientId = "e250b9f5fe2848f08f36f20b1274866a";
     private final static String clientSecret = "006e08a74dbd4d5caa1b5fdc8d247687";
@@ -46,18 +46,23 @@ public class Main {
             String i = scanner.next();
             if(i.equals("auth")) {
                 authorize(server);
+                if (server != null)
+                    server.stop(0);
                 System.out.println("---SUCCESS---");
                 break;
             }
             else if(i.equals("exit")) {
+                if (server != null)
+                    server.stop(0);
                 scanner.close();
                 System.exit(0);
             }
             else
                 System.out.println("Please, provide access for application.");
         }
-
+        scanner = new Scanner(System.in);
         HttpResponse<String> response;
+        JsonObject jo;
         while(true) {
             String i = scanner.nextLine();
             switch (i) {
@@ -66,26 +71,72 @@ public class Main {
                     System.out.println("---GOODBYE!---");
                     System.exit(0);
                 case ("new"):
-                    response = getResponse("/v1/browse/new-releases");
-                    System.out.println("response status code:" + response.statusCode());
-                    System.out.println("response body: " + response.body());
-                    System.out.println("response headers: " + response.headers());
+                    try {
+                        response = getResponse("/v1/browse/new-releases");
+                        jo = JsonParser.parseString(response.body()).getAsJsonObject();
+                        //System.out.println(jo);
+                        for (JsonElement j : jo.getAsJsonObject("albums").getAsJsonArray("items")) {
+
+                            if(j.isJsonObject()){
+                                System.out.println(j.getAsJsonObject().get("name").getAsString());
+                                System.out.print("[");
+                                boolean first = true;
+                                for(JsonElement k : j.getAsJsonObject().getAsJsonArray("artists")){
+                                    if(k.isJsonObject()) {
+                                        if(!first)
+                                            System.out.print(", ");
+                                        System.out.print(k.getAsJsonObject().get("name").getAsString());
+                                        first = false;
+                                    }
+                                }
+                                System.out.println("]");
+                                System.out.println(j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
+                            }
+                            //System.out.println(j.getAsJsonObject().get("name").getAsString());
+                        }
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     break;
                 case ("featured"):
-                    response = getResponse("/v1/browse/featured-playlists");
-                    System.out.println("response status code:" + response.statusCode());
-                    System.out.println("response body: " + response.body());
-                    System.out.println("response headers: " + response.headers());
+                    try {
+                        response = getResponse("/v1/browse/featured-playlists");
+                        jo = JsonParser.parseString(response.body()).getAsJsonObject();
+                        //System.out.println(jo);
+                        for (JsonElement j : jo.getAsJsonObject("playlists").getAsJsonArray("items")) {
+                            if(j.isJsonObject()){
+                                System.out.println(j.getAsJsonObject().get("name").getAsString());
+                                System.out.println(j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
+                            }
+                        }
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     break;
                 case ("categories"):
-                    response = getResponse("/v1/browse/categories/");
-                    System.out.println("response status code:" + response.statusCode());
-                    System.out.println("response body: " + response.body());
-                    System.out.println("response headers: " + response.headers());
+                    try {
+                        response = getResponse("/v1/browse/categories");
+                        jo = JsonParser.parseString(response.body()).getAsJsonObject();
+                        for (JsonElement j : jo.getAsJsonObject("categories").getAsJsonArray("items")) {
+                            System.out.println(j.getAsJsonObject().get("name").getAsString());
+                        }
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     if(i.startsWith("playlists")) {
-                        getPlaylist(i);
+                        try {
+                            getPlaylist(i);
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                     else {
                             System.out.println("else");
@@ -102,15 +153,13 @@ public class Main {
 
         try {
             String name = i.split(" ", 2)[1];
-            response = getResponse("/v1/browse/categories/");
+            response = getResponse("/v1/browse/categories");
             JsonObject jo = JsonParser.parseString(response.body()).getAsJsonObject();
-            System.out.println(jo.getAsJsonObject("categories").getAsJsonArray("items"));
-
             for (JsonElement j : jo.getAsJsonObject("categories").getAsJsonArray("items")) {
 
                 if (j.getAsJsonObject().get("name").getAsString().equals(name)) {
-                    System.out.println("FOUND CATEGORY");
-                    System.out.println("id: " + j.getAsJsonObject().get("id").getAsString());
+//                    System.out.println("FOUND CATEGORY");
+//                    System.out.println("id: " + j.getAsJsonObject().get("id").getAsString());
                     id = j.getAsJsonObject().get("id").getAsString();
                     break;
                 }
@@ -136,10 +185,11 @@ public class Main {
             e.printStackTrace();
         }
 
-
     }
 
     private static HttpResponse getResponse(String api) throws IOException, InterruptedException {
+
+        System.out.println("\n\nRequested:  " + APIpath + api + "\n\n");
 
         HttpClient client = HttpClient.newBuilder().build();
         HttpRequest request = HttpRequest.newBuilder()
@@ -186,7 +236,7 @@ public class Main {
         while(code.equals("")) {
             Thread.sleep(100);
         }
-        server.stop(1);
+        server.stop(0);
         System.out.println("code received");
         System.out.println("making http request for access_token...");
         try{
