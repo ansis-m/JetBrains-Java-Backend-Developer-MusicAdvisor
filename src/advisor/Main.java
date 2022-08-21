@@ -1,6 +1,9 @@
 package advisor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -54,59 +57,100 @@ public class Main {
                 System.out.println("Please, provide access for application.");
         }
 
+        HttpResponse<String> response;
         while(true) {
-            String i = scanner.next();
+            String i = scanner.nextLine();
             switch (i) {
                 case ("exit"):
                     scanner.close();
                     System.out.println("---GOODBYE!---");
                     System.exit(0);
                 case ("new"):
-                        getNew();
+                    response = getResponse("/v1/browse/new-releases");
+                    System.out.println("response status code:" + response.statusCode());
+                    System.out.println("response body: " + response.body());
+                    System.out.println("response headers: " + response.headers());
                     break;
                 case ("featured"):
-                    System.out.println("---FEATURED---\n" +
-                            "Mellow Morning\n" +
-                            "Wake Up and Smell the Coffee\n" +
-                            "Monday Motivation\n" +
-                            "Songs to Sing in the Shower");
+                    response = getResponse("/v1/browse/featured-playlists");
+                    System.out.println("response status code:" + response.statusCode());
+                    System.out.println("response body: " + response.body());
+                    System.out.println("response headers: " + response.headers());
                     break;
                 case ("categories"):
-                    System.out.println("---CATEGORIES---\n" +
-                            "Top Lists\n" +
-                            "Pop\n" +
-                            "Mood\n" +
-                            "Latin");
+                    response = getResponse("/v1/browse/categories/");
+                    System.out.println("response status code:" + response.statusCode());
+                    System.out.println("response body: " + response.body());
+                    System.out.println("response headers: " + response.headers());
                     break;
-                case ("playlists Mood"):
-                    System.out.println("---MOOD PLAYLISTS---\n" +
-                            "Walk Like A Badass  \n" +
-                            "Rage Beats  \n" +
-                            "Arab Mood Booster  \n" +
-                            "Sunday Stroll");
+                default:
+                    if(i.startsWith("playlists")) {
+                        getPlaylist(i);
+                    }
+                    else {
+                            System.out.println("else");
+                    }
                     break;
             }
+        }
+    }
+
+    private static void getPlaylist(String i) {
+
+        String id = null;
+        HttpResponse<String> response;
+
+        try {
+            String name = i.split(" ", 2)[1];
+            response = getResponse("/v1/browse/categories/");
+            JsonObject jo = JsonParser.parseString(response.body()).getAsJsonObject();
+            System.out.println(jo.getAsJsonObject("categories").getAsJsonArray("items"));
+
+            for (JsonElement j : jo.getAsJsonObject("categories").getAsJsonArray("items")) {
+
+                if (j.getAsJsonObject().get("name").getAsString().equals(name)) {
+                    System.out.println("FOUND CATEGORY");
+                    System.out.println("id: " + j.getAsJsonObject().get("id").getAsString());
+                    id = j.getAsJsonObject().get("id").getAsString();
+                    break;
+                }
+            }
+            if(id == null) {
+                System.out.println("Unknown category name.");
+                return;
+            }
+            else {
+                response = getResponse("/v1/browse/categories/" + id + "/playlists");
+                jo = JsonParser.parseString(response.body()).getAsJsonObject();
+                for (JsonElement j : jo.getAsJsonObject("playlists").getAsJsonArray("items")) {
+                    if (j.isJsonObject()) {
+                        System.out.println(j.getAsJsonObject().get("name").getAsString());
+                        System.out.println(j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
+                    }
+                }
+            }
+
+        }
+        catch (Exception e) {
+            System.out.println("Exception searching for playlist!!!\n");
+            e.printStackTrace();
         }
 
 
     }
 
-    private static void getNew() throws IOException, InterruptedException {
+    private static HttpResponse getResponse(String api) throws IOException, InterruptedException {
 
         HttpClient client = HttpClient.newBuilder().build();
         HttpRequest request = HttpRequest.newBuilder()
                 .headers("Content-Type", "application/json", "Authorization", "Bearer " + accessToken)
-                .uri(URI.create(APIpath + "/v1/browse/new-releases"))
+                .uri(URI.create(APIpath + api))
                 .GET()
                 .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
         //ObjectMapper mapper = new ObjectMapper();
         //Map<String, String> map = mapper.readValue(response.body(), Map.class);
         //accessToken = map.get("access_token");
-        System.out.println("response status code:" + response.statusCode());
-        System.out.println("response body: " + response.body());
-        System.out.println("response headers: " + response.headers());
-
     }
 
     private static void getServerPath(String[] args) {
