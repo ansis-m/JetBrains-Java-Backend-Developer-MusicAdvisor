@@ -170,13 +170,26 @@ public class Main {
             }
             else {
                 response = getResponse("/v1/browse/categories/" + id + "/playlists");
-                jo = JsonParser.parseString(response.body()).getAsJsonObject();
-                for (JsonElement j : jo.getAsJsonObject("playlists").getAsJsonArray("items")) {
-                    if (j.isJsonObject()) {
-                        System.out.println(j.getAsJsonObject().get("name").getAsString());
-                        System.out.println(j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
+                if(response.statusCode() == 200) {
+                    jo = JsonParser.parseString(response.body()).getAsJsonObject();
+                    if(jo.has("error")) {
+                        System.out.println("ERROR: " + jo.get("error"));
+                    }
+                    else {
+                        for (JsonElement j : jo.getAsJsonObject("playlists").getAsJsonArray("items")) {
+                            if (j.isJsonObject()) {
+                                System.out.println(j.getAsJsonObject().get("name").getAsString());
+                                System.out.println(j.getAsJsonObject().getAsJsonObject("external_urls").get("spotify").getAsString() + "\n");
+                            }
+                        }
                     }
                 }
+                else {
+                    System.out.println("bad status code");
+                    System.out.println(response.headers());
+                    System.out.println(response.body());
+                }
+
             }
 
         }
